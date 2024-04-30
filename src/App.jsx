@@ -1,14 +1,12 @@
-import './App.css'
+import styles from './App.module.css'
 import WeatherDaily from './pages/WeatherDaily'
 
 function App() {
   
-
   return (
-    <>
-     <h1>Weather App</h1>
+    <main className={styles.app}>
      <WeatherDaily />
-    </>
+    </main>
   )
 }
 

@@ -1,56 +1,97 @@
 import React, { useState, useEffect } from "react";
-
+import styles from "./WeatherDaily.module.css";
 
 const WeatherDaily = () => {
-  const [weatherData, setWeatherData] = useState([]);
-  const [inputData, setInputData] = useState('');
+  const [weatherData, setWeatherData] = useState({});
+  const [inputLocation, setInputLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const key = '7e9a4ad422514285b5585651243004'
-  const url = 'http://api.weatherapi.com/v1/'
+  const key = "7e9a4ad422514285b5585651243004";
+  const url = "http://api.weatherapi.com/v1/";
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
-      setIsLoading(true)
-      const response = await fetch(`${url}current.json?key=${key}&q=${inputData}&aqi=no`);
-      if (response != 200) {
-        setErrorMsg('Something went wrong!')
+      setIsLoading(true);
+      const response = await fetch(
+        `${url}current.json?key=${key}&q=${inputLocation}&aqi=no`
+      );
+      if (response.status != 200) {
+        setErrorMsg("Something went wrong!");
       } else {
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setWeatherData(data);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     } catch (error) {
-      console.log(error)
-      setIsLoading(false)
+      console.log(error);
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
-  }, [inputData])
-
+  }, [inputLocation]);
 
   const submitForm = (e) => {
     e.preventDefault();
-    fetchData()
-    setInputData('')
-    console.log(weatherData)
-  }
-
-  console.log(weatherData)
+    if (inputLocation.length === 0) {
+      setErrorMsg("Location must be provided.");
+      return;
+    }
+    if (e.type === "submit" && e.key === "Enter") {
+      fetchData();
+    }
+    setInputLocation("");
+    console.log(weatherData);
+  };
 
   return (
-    <div>
+    <main className={styles["main-container"]}>
       <form onSubmit={submitForm}>
-        <label htmlFor="location">location</label>
-        <input type="text" id="location" value={inputData} onChange={(e) => setInputData(e.target.value)} />
-        <button type="submit" >Search</button>
+        <input
+          type="text"
+          id="location"
+          value={inputLocation}
+          onChange={(e) => setInputLocation(e.target.value)}
+          placeholder="Enter location"
+        />
+        <button type="submit">Search</button>
       </form>
-      <pre>{JSON.stringify(weatherData)}</pre>
-    </div>);
+      <section className={styles["top-container"]}>
+        <header>
+          <h4>
+            {weatherData?.location?.name}/{weatherData?.location?.country}
+          </h4>
+          <h1>{weatherData?.current?.temp_c}°C</h1>
+        </header>
+        <div className={styles["description-cont"]}>
+          <img src={weatherData?.current?.condition?.icon} alt="weather icon" />
+          <p>{weatherData?.current?.condition?.text}</p>
+        </div>
+      </section>
+      <img src="" alt="" />
+      <section>
+        <div className={styles.condition}>
+          <p>{weatherData?.current?.humidity}</p>
+          <p>humidity</p>
+        </div>
+        <div className={styles.condition}>
+          <p>{weatherData?.current?.wind_mph}</p>
+          <p>wind</p>
+        </div>
+        <div className={styles.condition}>
+          <p>{weatherData?.current?.precip_in}</p>
+          <p>precipitation</p>
+        </div>
+        <div className={styles.condition}>
+          <p>{weatherData?.current?.pressure_mb}</p>
+          <p>pressure</p>
+        </div>
+      </section>
+    </main>
+  );
 };
 
 export default WeatherDaily;
