@@ -17,7 +17,7 @@ const WeatherDaily = () => {
         `${url}current.json?key=${key}&q=${inputLocation}&aqi=no`
       );
       if (response.status != 200) {
-        setErrorMsg("Something went wrong!");
+        console.log("Something went wrong!");
       } else {
         const data = await response.json();
         console.log(data);
@@ -35,21 +35,18 @@ const WeatherDaily = () => {
   }, [inputLocation]);
 
   const submitForm = (e) => {
-    e.preventDefault();
     if (inputLocation.length === 0) {
       setErrorMsg("Location must be provided.");
-      return;
     }
-    if (e.type === "submit" && e.key === "Enter") {
-      fetchData();
-    }
+    fetchData();
     setInputLocation("");
-    console.log(weatherData);
+    setWeatherData({})
   };
 
   return (
     <main className={styles["main-container"]}>
-      <form onSubmit={submitForm}>
+      <div className={styles.form}>
+        { errorMsg && !inputLocation && <p>{errorMsg}</p>}
         <input
           type="text"
           id="location"
@@ -57,39 +54,48 @@ const WeatherDaily = () => {
           onChange={(e) => setInputLocation(e.target.value)}
           placeholder="Enter location"
         />
-        <button type="submit">Search</button>
-      </form>
-      <section className={styles["top-container"]}>
-        <header>
-          <h4>
-            {weatherData?.location?.name}/{weatherData?.location?.country}
-          </h4>
-          <h1>{weatherData?.current?.temp_c}°C</h1>
-        </header>
-        <div className={styles["description-cont"]}>
-          <img src={weatherData?.current?.condition?.icon} alt="weather icon" />
-          <p>{weatherData?.current?.condition?.text}</p>
+        <button type="submit" onClick={submitForm} className={styles.btn}>
+          Search
+        </button>
+      </div>
+      {inputLocation && (
+        <div className={styles.info}>
+          <section className={styles["top-container"]}>
+            <header className={styles.header}>
+              <h1>{weatherData?.current?.temp_c}°C</h1>
+              <h4>
+                {weatherData?.location?.name}/{weatherData?.location?.country}
+              </h4>
+            </header>
+            <div className={styles["description-cont"]}>
+              <img
+                src={weatherData?.current?.condition?.icon}
+                alt="weather icon"
+              />
+              <p>{weatherData?.current?.condition?.text}</p>
+            </div>
+          </section>
+          <img src="" alt="" />
+          <section className={styles["condition-cont"]}>
+            <div className={styles.condition}>
+              <p>{weatherData?.current?.humidity}</p>
+              <p>humidity</p>
+            </div>
+            <div className={styles.condition}>
+              <p>{weatherData?.current?.wind_mph}</p>
+              <p>wind</p>
+            </div>
+            <div className={styles.condition}>
+              <p>{weatherData?.current?.precip_in}</p>
+              <p>precipitation</p>
+            </div>
+            <div className={styles.condition}>
+              <p>{weatherData?.current?.pressure_mb}</p>
+              <p>pressure</p>
+            </div>
+          </section>
         </div>
-      </section>
-      <img src="" alt="" />
-      <section>
-        <div className={styles.condition}>
-          <p>{weatherData?.current?.humidity}</p>
-          <p>humidity</p>
-        </div>
-        <div className={styles.condition}>
-          <p>{weatherData?.current?.wind_mph}</p>
-          <p>wind</p>
-        </div>
-        <div className={styles.condition}>
-          <p>{weatherData?.current?.precip_in}</p>
-          <p>precipitation</p>
-        </div>
-        <div className={styles.condition}>
-          <p>{weatherData?.current?.pressure_mb}</p>
-          <p>pressure</p>
-        </div>
-      </section>
+      )}
     </main>
   );
 };

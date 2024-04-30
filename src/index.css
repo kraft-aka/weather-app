@@ -13,8 +13,14 @@ img {
   display: block;
 }
 
-button, a, input {
+button,
+a,
+input {
   font: inherit;
+}
+
+button {
+  background: var(--btn-clr);
 }
 
 body {
@@ -24,4 +30,7 @@ body {
   font-style: normal;
   background-color: var(--bg-clr);
   line-height: 1.5;
+  width: 100vw;
+  height: 100vh;
+  letter-spacing: 1px;
 }
