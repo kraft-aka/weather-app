@@ -10,6 +10,8 @@
 .form {
   width: 50%;
   margin-top: 2rem;
+  animation-name: slide, show;
+  animation-duration: 2s, 5s;
 }
 
 .main-container input {
@@ -54,6 +56,10 @@
   align-items: center;
   width: 100%;
   padding: 1rem;
+}
+
+.header {
+  margin-left: 1rem;
 }
 
 .header h1 {
@@ -119,7 +125,7 @@
   }
 }
 
-@media screen and (min-width: 685px) and (max-width:992px) {
+@media screen and (min-width: 685px) and (max-width: 992px) {
   .top-container {
     flex-direction: column;
   }
@@ -143,13 +149,13 @@
   }
 
   .description-cont {
-   text-align: center;
+    text-align: center;
   }
 
   .local-image {
     width: 10rem;
     height: auto;
-    margin: 0 auto
+    margin: 0 auto;
   }
 
   .header h1 {
