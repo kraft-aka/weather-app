@@ -44,6 +44,8 @@
   flex-wrap: wrap;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  animation-name: slide, show;
+  animation-duration: 4s, 5s;
 }
 
 .top-container {
@@ -90,9 +92,29 @@
   border-radius: 1rem;
   overflow: hidden;
   margin: 1rem;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .condition p:nth-of-type(1) {
   font-weight: 700;
+}
+
+@keyframes slide {
+  from {
+    transform: translateY(100px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
