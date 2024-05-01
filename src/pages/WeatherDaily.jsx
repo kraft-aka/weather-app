@@ -14,7 +14,8 @@ const WeatherDaily = () => {
   const url = "http://api.weatherapi.com/v1/";
   const imgUrl = "https://api.unsplash.com/";
 
-  let imgSrc = 'https://images.unsplash.com/photo-1547628641-ec2098bb5812?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  let imgSrc =
+    "https://images.unsplash.com/photo-1547628641-ec2098bb5812?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   const fetchData = async (e) => {
     try {
@@ -34,6 +35,9 @@ const WeatherDaily = () => {
       console.log(error);
       setIsLoading(false);
     }
+  };
+
+  const fetchImage = async () => {
     try {
       const response = await fetch(
         `${imgUrl}search/photos?query=${inputLocation}&client_id=${APP_ID}`
@@ -48,14 +52,13 @@ const WeatherDaily = () => {
 
   const handleInput = () => {
     inputRef.current.focus();
-  }
+  };
 
   useEffect(() => {
     fetchData();
     handleInput();
+    fetchImage();
   }, [inputLocation]);
-
-
 
   // const submitForm = (e) => {
   //   if (inputLocation.length === 0) {
