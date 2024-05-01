@@ -54,9 +54,6 @@ const WeatherDaily = () => {
           onChange={(e) => setInputLocation(e.target.value)}
           placeholder="Enter location"
         />
-        <button type="submit" onClick={submitForm} className={styles.btn}>
-          Search
-        </button>
       </div>
       {inputLocation && (
         <div className={styles.info}>
