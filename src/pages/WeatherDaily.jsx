@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./WeatherDaily.module.css";
 
 const WeatherDaily = () => {
@@ -7,6 +7,7 @@ const WeatherDaily = () => {
   const [photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const inputRef = useRef(null);
 
   const key = "7e9a4ad422514285b5585651243004";
   const APP_ID = "8224S7QjRI4KSscL7UyUZ5vbypvEt4IkcMfkgl6r51U";
@@ -45,18 +46,25 @@ const WeatherDaily = () => {
     }
   };
 
+  const handleInput = () => {
+    inputRef.current.focus();
+  }
+
   useEffect(() => {
     fetchData();
+    handleInput();
   }, [inputLocation]);
 
-  const submitForm = (e) => {
-    if (inputLocation.length === 0) {
-      setErrorMsg("Location must be provided.");
-    }
-    fetchData();
-    setInputLocation("");
-    setWeatherData({});
-  };
+
+
+  // const submitForm = (e) => {
+  //   if (inputLocation.length === 0) {
+  //     setErrorMsg("Location must be provided.");
+  //   }
+  //   fetchData();
+  //   setInputLocation("");
+  //   setWeatherData({});
+  // };
 
   return (
     <main className={styles["main-container"]}>
@@ -68,6 +76,7 @@ const WeatherDaily = () => {
           value={inputLocation}
           onChange={(e) => setInputLocation(e.target.value)}
           placeholder="Enter location"
+          ref={inputRef}
         />
       </div>
       {inputLocation && (
