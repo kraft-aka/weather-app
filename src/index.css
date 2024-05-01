@@ -6,7 +6,7 @@
 
 :root {
   --bg-clr: #f8f8f8;
-  --btn-clr: #2e4c6f;
+  --bg2-clr: #a6b3c2;
 }
 
 img {
@@ -17,10 +17,11 @@ button,
 a,
 input {
   font: inherit;
+  color: var(--bg-clr)
 }
 
 button {
-  background: var(--btn-clr);
+  background: var(--bg2-clr);
 }
 
 body {
@@ -33,4 +34,10 @@ body {
   width: 100vw;
   height: 100vh;
   letter-spacing: 1px;
+  color: var(--bg-clr);
+}
+
+::placeholder {
+  color: var(--bg-clr);
+  letter-spacing: 2px;
 }
